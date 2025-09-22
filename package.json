@@ -1,0 +1,43 @@
+{
+  "name": "fsrs-english-cards",
+  "version": "1.0.0",
+  "description": "基于FSRS算法的智能英语学习网页应用",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "node scripts/build.js",
+    "dev": "python -m http.server 8000",
+    "deploy": "node scripts/deploy.js",
+    "deploy:github": "npm run build && gh-pages -d dist",
+    "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist",
+    "deploy:vercel": "npm run build && vercel --prod",
+    "deploy:firebase": "npm run build && firebase deploy",
+    "preview": "cd dist && python -m http.server 8000",
+    "check": "node scripts/deploy.js --check",
+    "clean": "rm -rf dist node_modules package-lock.json"
+  },
+  "keywords": [
+    "fsrs",
+    "spaced-repetition",
+    "english-learning",
+    "flashcards",
+    "education"
+  ],
+  "author": "FSRS Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/fsrs-english-cards.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/fsrs-english-cards/issues"
+  },
+  "homepage": "https://username.github.io/fsrs-english-cards",
+  "devDependencies": {
+    "clean-css-cli": "^5.6.2",
+    "terser": "^5.16.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

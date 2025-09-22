@@ -1,0 +1,22 @@
+{
+    "debug": false,
+    "logLevel": "error",
+    "features": {
+        "analytics": true,
+        "errorReporting": true,
+        "keyboardShortcuts": true,
+        "soundEffects": true
+    },
+    "learning": {
+        "maxNewWordsPerDay": 15,
+        "maxReviewWordsPerDay": 30,
+        "requestRetention": 0.9,
+        "maximumInterval": 36500
+    },
+    "ui": {
+        "theme": "auto",
+        "animations": true,
+        "showProgress": true,
+        "showStats": true
+    }
+}

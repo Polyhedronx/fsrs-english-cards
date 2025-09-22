@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FSRS英语学习卡片</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="../src/styles/main.css">
+    <link rel="stylesheet" href="../src/styles/components.css">
+    <link rel="stylesheet" href="../src/styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">FSRS Cards</h1>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">今日学习</span>
+                        <span class="stat-value" id="todayCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">掌握单词</span>
+                        <span class="stat-value" id="masteredCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">学习天数</span>
+                        <span class="stat-value" id="streakCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 欢迎界面 -->
+            <div class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-content">
+                    <div class="welcome-icon">📚</div>
+                    <h2>开始你的英语学习之旅</h2>
+                    <p>基于FSRS算法的智能学习系统，让记忆更高效</p>
+                    <button class="btn btn-primary" onclick="startLearning()">开始学习</button>
+                </div>
+            </div>
+
+            <!-- 学习界面 -->
+            <div class="learning-screen" id="learningScreen" style="display: none;">
+                <!-- 进度条 -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="currentCard">1</span> / <span id="totalCards">10</span>
+                    </div>
+                </div>
+
+                <!-- 卡片容器 -->
+                <div class="card-container">
+                    <div class="card" id="learningCard">
+                        <div class="card-content">
+                            <div class="card-front" id="cardFront">
+                                <div class="card-type">英文</div>
+                                <h3 class="word" id="wordText">abandon</h3>
+                                <p class="pronunciation" id="pronunciationText">/əˈbændən/</p>
+                            </div>
+                            <div class="card-back" id="cardBack" style="display: none;">
+                                <div class="card-type">中文</div>
+                                <h3 class="meaning" id="meaningText">放弃，抛弃</h3>
+                                <p class="example" id="exampleText">He abandoned his car in the snow.</p>
+                                <p class="translation" id="translationText">他在雪地里抛弃了他的车。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="action-buttons" id="actionButtons">
+                    <button class="btn btn-flip" onclick="flipCard()">显示答案</button>
+                </div>
+
+                <!-- 评分按钮 -->
+                <div class="rating-buttons" id="ratingButtons" style="display: none;">
+                    <button class="btn btn-again" onclick="rateCard('again')">忘记</button>
+                    <button class="btn btn-hard" onclick="rateCard('hard')">困难</button>
+                    <button class="btn btn-good" onclick="rateCard('good')">良好</button>
+                    <button class="btn btn-easy" onclick="rateCard('easy')">简单</button>
+                </div>
+            </div>
+
+            <!-- 完成界面 -->
+            <div class="completion-screen" id="completionScreen" style="display: none;">
+                <div class="completion-content">
+                    <div class="completion-icon">🎉</div>
+                    <h2>学习完成！</h2>
+                    <div class="completion-stats">
+                        <div class="completion-stat">
+                            <span class="completion-label">本次学习</span>
+                            <span class="completion-value" id="sessionCount">0</span>
+                        </div>
+                        <div class="completion-stat">
+                            <span class="completion-label">新学单词</span>
+                            <span class="completion-value" id="newWordsCount">0</span>
+                        </div>
+                        <div class="completion-stat">
+                            <span class="completion-label">复习单词</span>
+                            <span class="completion-value" id="reviewWordsCount">0</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="startNewSession()">继续学习</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 侧边栏 -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-content">
+                <h3>学习统计</h3>
+                <div class="sidebar-stats">
+                    <div class="sidebar-stat">
+                        <span class="sidebar-label">总单词数</span>
+                        <span class="sidebar-value" id="totalWords">0</span>
+                    </div>
+                    <div class="sidebar-stat">
+                        <span class="sidebar-label">学习中</span>
+                        <span class="sidebar-value" id="learningWords">0</span>
+                    </div>
+                    <div class="sidebar-stat">
+                        <span class="sidebar-label">已掌握</span>
+                        <span class="sidebar-value" id="masteredWords">0</span>
+                    </div>
+                </div>
+                
+                <h3>今日任务</h3>
+                <div class="daily-tasks">
+                    <div class="task-item">
+                        <span class="task-label">新单词</span>
+                        <span class="task-progress" id="newTaskProgress">0/10</span>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-label">复习</span>
+                        <span class="task-progress" id="reviewTaskProgress">0/5</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 核心算法 -->
+    <script src="../src/core/fsrs-scheduler.js"></script>
+    <script src="../src/core/memory-model.js"></script>
+    
+    <!-- 组件 -->
+    <script src="../src/components/card.js"></script>
+    <script src="../src/components/progress.js"></script>
+    <script src="../src/components/stats.js"></script>
+    
+    <!-- 数据管理 -->
+    <script src="../src/data/words.js"></script>
+    <script src="../src/data/storage.js"></script>
+    
+    <!-- 主应用 -->
+    <script src="../src/app.js"></script>
+</body>
+</html>
